@@ -3,21 +3,14 @@ public:
     bool canJump(vector<int>& nums) {
         int n = nums.size();
         if(n==1)return true;
-        for(int i=0;i<n;){
-            int jumpDis = nums[i];
-            if(jumpDis ==0)return false;
-            int j = i+1;
-            int max = j;
-            while(jumpDis > 0){
-                if(j == n-1)return true;
-                if(j + nums[j] >= max + nums[max]){
-                    max = j;
-                }
-                j++;
-                jumpDis--;
+
+        int maxIndex = 0;
+        for(int i=0;i<n-1;i++){
+            if(maxIndex < i)return false;
+            if(maxIndex < nums[i]+i){
+                maxIndex = nums[i]+i;
             }
-            i = max;
-            if(max + nums[max] >= (n-1))return true;   
+            if(maxIndex >= n-1)return true;
         }
         return false;
     }
