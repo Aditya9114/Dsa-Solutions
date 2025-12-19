@@ -1,21 +1,18 @@
 class Solution {
 public:
     int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-        for(int i=0;i<intervals.size();i++){
-            pq.push({intervals[i][1],intervals[i][0]});
-        }
+        sort(intervals.begin(), intervals.end(),
+             [](auto& a, auto& b) { return a[1] < b[1]; });
+
         int ans = 0;
-        int lastEnd = pq.top().first;
-        pq.pop();
-        while(!pq.empty()){
-            if(pq.top().second < lastEnd){
-                ans++;
-                pq.pop();
-                continue;
+        int lastEnd = intervals[0][1];
+
+        for (int i = 1; i < intervals.size(); i++) {
+            if (intervals[i][0] < lastEnd) {
+                ans++; // remove this interval
+            } else {
+                lastEnd = intervals[i][1];
             }
-            lastEnd = pq.top().first;
-            pq.pop();
         }
         return ans;
     }
