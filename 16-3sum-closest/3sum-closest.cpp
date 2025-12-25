@@ -7,7 +7,7 @@ public:
         int n = nums.size();
         int minDiff = INT_MAX;
         int closestSum;
-        for (i = 0; i < n - 2; i++) {
+        for (i = 0; i < n - 1; i++) {
             j = i + 1;
             k = n - 1;
             while (k > j) {
