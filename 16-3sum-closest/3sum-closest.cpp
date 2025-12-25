@@ -5,8 +5,8 @@ public:
         vector<int> array(3);
         int i, j, k;
         int n = nums.size();
-        int ans1 = INT_MAX;
-        int ans;
+        int minDiff = INT_MAX;
+        int closestSum;
         for (i = 0; i < n - 2; i++) {
             j = i + 1;
             k = n - 1;
@@ -14,9 +14,9 @@ public:
                 int sum = nums[i] + nums[j] + nums[k]; 
                 int diff = abs(target - sum);
 
-                if (diff < ans1) {
-                    ans1 = diff;
-                    ans = sum;
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    closestSum = sum;
                 }
 
                 if (sum < target) {
@@ -26,6 +26,6 @@ public:
                 }
             }
         }
-        return ans;
+        return closestSum;
     }
 };
