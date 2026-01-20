@@ -11,7 +11,6 @@
  */
 class Solution {
 public:
-    vector<int> p1,q1;
     bool isSameTree(TreeNode* p, TreeNode* q) {
         if(p==NULL || q==NULL){
             return (p==q);
