@@ -13,16 +13,17 @@ class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
         vector<vector<int>> ans1 = levelOrder(root);
-        for(int i=0;i<ans1.size();i++){
-            if(i%2 != 0){
-                vector<int> intermediate = ans1[i];
-                reverse(intermediate.begin(),intermediate.end());
-                ans1[i] = intermediate;
-            }
-        }
+        // for(int i=0;i<ans1.size();i++){
+        //     if(i%2 != 0){
+        //         vector<int> intermediate = ans1[i];
+        //         reverse(intermediate.begin(),intermediate.end());
+        //         ans1[i] = intermediate;
+        //     }
+        // }
         return ans1;
     }
     vector<vector<int>> levelOrder(TreeNode *node){
+        int flag = 0;
         vector<vector<int>>ans;
         if(node == NULL)return ans;
         queue <TreeNode *>q;
@@ -41,7 +42,11 @@ public:
                 }
                 level.push_back(temp->val);
             }
+            if(flag == 1){
+                reverse(level.begin(),level.end());
+            }
             ans.push_back(level);
+            flag = !flag;
         }
         return ans;
     }
