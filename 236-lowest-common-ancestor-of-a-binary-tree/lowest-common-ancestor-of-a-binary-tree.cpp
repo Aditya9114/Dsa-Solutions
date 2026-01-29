@@ -9,10 +9,10 @@ public:
         
         int Size;
         if(ans1.size() > ans2.size()){
-            Size = ans2.size();  // Changed: should use the smaller size
+            Size = ans2.size();
         }
         else{
-            Size = ans1.size();  // Changed: should use the smaller size
+            Size = ans1.size();
         }
         
         TreeNode* prev = root;
@@ -27,9 +27,12 @@ public:
     
     void findPath(TreeNode *curr, TreeNode* node, vector<TreeNode*> &path, vector<TreeNode*> &q){
         if(curr == NULL) return;
+        if(path.size() > 0) return;  // Early stop: path already found
+        
         q.push_back(curr);
         if(curr->val == node->val){
             path = q;
+            return;  // Early stop: found the node
         }
         findPath(curr->left, node, path, q);
         findPath(curr->right, node, path, q);
