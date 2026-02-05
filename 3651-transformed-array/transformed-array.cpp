@@ -7,7 +7,7 @@ public:
             if(nums[i]==0){
                 ans[i] = nums[i];
             }
-            if(nums[i] > 0){
+            else if(nums[i] > 0){
                 int index = (nums[i] + i) % size;
                 ans[i] = nums[index];
             }
