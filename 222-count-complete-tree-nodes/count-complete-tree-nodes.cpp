@@ -12,14 +12,27 @@
 class Solution {
 public:
     int countNodes(TreeNode* root) {
-        int ans = 0;
-        traverse (root,ans);
-        return ans;
+        if(root == NULL) return 0;
+        int lh = findHeightLeft(root);
+        int rh = findHeightRight(root);
+
+        if(lh == rh) return (1<<lh) - 1;
+        return 1 + countNodes(root->left) + countNodes(root->right);
     }
-    void traverse(TreeNode *r, int &a){
-        if(r==NULL)return;
-        a++;
-        traverse(r->left , a);
-        traverse(r->right,a);
+    int findHeightLeft(TreeNode *node){
+        int count = 0;
+        while(node){
+            count++;
+            node = node->left;
+        }
+        return count;
+    }
+    int findHeightRight(TreeNode *node){
+        int count = 0;
+        while(node){
+            count++;
+            node = node->right;
+        }
+        return count;
     }
 };
