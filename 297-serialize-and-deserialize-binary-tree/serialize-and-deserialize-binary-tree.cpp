@@ -7,9 +7,9 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+
 class Codec {
 public:
-    // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
         queue<TreeNode*> q;
         string s;
@@ -42,37 +42,40 @@ public:
         return s;
     }
 
-    // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
         queue<TreeNode*> q;
         if (data.size() == 0)
             return NULL;
+
+        int idx = 0;
         string first;
-        int i = 0;
-        while (data[i] != ',') {
-            first += data[i++];
+        while (data[idx] != ',') {
+            first += data[idx++];
         }
-        data = data.substr(++i);
+        idx++;
+
         int num = stoi(first);
         TreeNode* root = new TreeNode(num);
         q.push(root);
-        build(data,q);
+        build(data, q, idx);
         return root;
     }
-    void build(string& data,queue<TreeNode*>& q) {
-        if (data.size() <= 1)return;
+
+    void build(string& data, queue<TreeNode*>& q, int& idx) {
+        if (data.size() <= 1)
+            return;
         while (!q.empty()) {
             int size = q.size();
             for (int i = 0; i < size; i++) {
                 TreeNode* newNode = q.front();
                 q.pop();
 
-
-                int j = 0;
                 string s;
-                while (data[j] != ',') {
-                    s += data[j++];
+                while (idx < data.size() && data[idx] != ',') {
+                    s += data[idx++];
                 }
+                idx++;
+
                 if (s == "n") {
                     newNode->left = NULL;
                 } else {
@@ -82,14 +85,12 @@ public:
                     q.push(newNode->left);
                 }
 
-                data = data.substr(++j);
                 s.clear();
-
-
-                j = 0;
-                while (data[j] != ',') {
-                    s += data[j++];
+                while (idx < data.size() && data[idx] != ',') {
+                    s += data[idx++];
                 }
+                idx++;
+
                 if (s == "n") {
                     newNode->right = NULL;
                 } else {
@@ -98,7 +99,6 @@ public:
                     newNode->right = newNodeR;
                     q.push(newNode->right);
                 }
-                data = data.substr(++j);
             }
         }
         return;
