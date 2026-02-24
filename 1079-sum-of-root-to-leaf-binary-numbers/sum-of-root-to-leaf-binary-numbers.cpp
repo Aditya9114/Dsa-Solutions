@@ -24,7 +24,7 @@ public:
         return sum;
     }
     void traverse(TreeNode* r, string& s, vector<string>& v1) { 
-        if(r == NULL || r==NULL)return;
+        if(r == NULL)return;
         s += to_string(r->val);
         if (r->left == NULL && r->right == NULL) {
             v1.push_back(s);
