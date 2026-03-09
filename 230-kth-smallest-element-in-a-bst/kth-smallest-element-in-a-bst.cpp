@@ -12,15 +12,15 @@
 class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
-        priority_queue<int> pq;
-        inorder(pq,root,k);
-        return pq.top();
+        vector<int> ans;
+        inorder(ans,root,k);
+        return ans[k-1];
     }
-    void inorder(priority_queue<int> &p, TreeNode *r, int k){
-        if(r == NULL)return;
-        inorder(p,r->left,k);
-        p.push(r->val);
-        if(p.size() > k)p.pop();
-        inorder(p,r->right,k);
+    void inorder(vector<int> &ans, TreeNode *r, int k){
+        if(r == NULL || ans.size() == k)return;
+        inorder(ans,r->left,k);
+        ans.push_back(r->val);
+        if(ans.size() == k)return;
+        inorder(ans,r->right,k);
     }
 };
