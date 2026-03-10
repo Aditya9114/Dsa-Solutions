@@ -12,22 +12,13 @@
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
-        vector<int> a,b;
-        inorder(root,a);
-        b = a;
-        sort(b.begin(),b.end());
-        for(int i=0;i<a.size();i++){
-            if(a[i] != b[i]){
-                return false;
-            }
-            if(i > 0 && b[i-1] == b[i])return false;
-        }
-        return true;
+       return validate(root, LONG_MIN, LONG_MAX);
     }
-    void inorder(TreeNode *r, vector<int> &a){
-        if(r==NULL)return;
-        inorder(r->left,a);
-        a.push_back(r->val);
-        inorder(r->right,a);
+    bool validate(TreeNode *r, long min, long max){
+        if(r==NULL)return true;
+        if(r->val >= max || r->val <= min)return false;
+        bool left = validate(r->left,min,(r->val));
+        bool right = validate(r->right,(r->val),max);
+        return left && right;
     }
 };
