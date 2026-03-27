@@ -7,7 +7,6 @@ public:
 
   
         for(int i = 0; i < mat.size(); i++){
-            int repeat = -1;
        
             for(int j = 0; j < n; j++){
                 // even: check left shift, odd: check right shift
