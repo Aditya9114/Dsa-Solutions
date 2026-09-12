@@ -1,44 +1,59 @@
 class Solution {
 public:
-    bool jump(vector<int>& stones, int pos, int j,
-              unordered_map<int,int>& mpp,
-              unordered_map<long long, bool>& dp) {
-        
-        if(mpp.find(pos) == mpp.end())
-            return false;
+    void jump(vector<int>& stones, int pos, int jumpSize,
+              unordered_map<int,int>& stoneMap,
+              map<pair<int,int>, bool>& dp,
+              int &flag) {
 
-        if(pos == stones[stones.size()-1])
-            return true;
+        if(stoneMap.find(pos) == stoneMap.end())
+            return;
 
-        long long key = ((long long)pos << 32) | j;
+        if(flag == 1)
+            return;
 
-        if(dp.find(key) != dp.end())
-            return dp[key];
+        if(pos == stones.back()) {
+            flag = 1;
+            return;
+        }
 
-        // jump j + 1
-        if(jump(stones, pos+j+1, j+1, mpp, dp))
-            return dp[key] = true;
+        // Already visited this state
+        if(dp[{pos, jumpSize}])
+            return;
 
-        // jump j
-        if(j > 0 && jump(stones, pos+j, j, mpp, dp))
-            return dp[key] = true;
+        dp[{pos, jumpSize}] = true;
 
-        // jump j - 1
-        if(j > 1 && jump(stones, pos+j-1, j-1, mpp, dp))
-            return dp[key] = true;
+        if(pos == 0) {
+            jump(stones, pos + 1, jumpSize + 1,
+                 stoneMap, dp, flag);
+        }
 
-        return dp[key] = false;
+        jump(stones, pos + jumpSize + 1, jumpSize + 1,
+             stoneMap, dp, flag);
+
+        if(jumpSize > 0) {
+            jump(stones, pos + jumpSize, jumpSize,
+                 stoneMap, dp, flag);
+        }
+
+        if(jumpSize > 1) {
+            jump(stones, pos + jumpSize - 1, jumpSize - 1,
+                 stoneMap, dp, flag);
+        }
     }
 
     bool canCross(vector<int>& stones) {
-        unordered_map<int,int> mpp;
-        
-        for(int i = 0; i < stones.size(); i++) {
-            mpp[stones[i]] = 1;
+
+        int flag = 0;
+
+        unordered_map<int,int> stoneMap;
+        map<pair<int,int>, bool> dp;
+
+        for(int stone : stones) {
+            stoneMap[stone] = 1;
         }
 
-        unordered_map<long long, bool> dp;
+        jump(stones, 0, 0, stoneMap, dp, flag);
 
-        return jump(stones, 0, 0, mpp, dp);
+        return flag == 1;
     }
 };
